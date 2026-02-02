@@ -21,7 +21,9 @@ uv tool install moltbot-ha
 moltbot-ha config init
 ```
 
-This creates `~/.config/moltbot-ha/config.toml`. Edit it to set your Home Assistant URL.
+The setup will interactively ask for:
+- Home Assistant URL (e.g., `http://192.168.1.100:8123`)
+- Token storage preference (environment variable recommended)
 
 ### 3. Set Environment Variable
 Set your Home Assistant long-lived access token:

@@ -5,6 +5,19 @@ All notable changes to moltbot-ha will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-02-02
+
+### Added
+- Interactive setup wizard in `config init` command
+- Prompts for Home Assistant URL during initialization
+- Option to store token in config or use environment variable
+- Non-interactive mode via `--no-interactive` flag
+- Command-line options `--url` and `--token` for automated setup
+
+### Changed
+- `config init` now guides users through URL and token configuration
+- Improved first-time user experience with clearer prompts
+
 ## [0.1.0] - 2026-01-29
 
 ### Added
@@ -28,17 +41,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Token stored in environment variable (not in config file)
 - All actions logged with timestamps
 
-## [Unreleased]
+## [Planned]
 
-### Planned
 - WebSocket support for real-time entity updates
 - Entity state caching to reduce API calls
 - Auto-discovery via mDNS/zeroconf
 - Bash/Zsh completion scripts
 - Unit and integration test suite
 - CI/CD pipeline
-- PyPI publication
 
 ---
 
+[0.1.1]: https://github.com/iamvaleriofantozzi/moltbot-ha/releases/tag/v0.1.1
 [0.1.0]: https://github.com/iamvaleriofantozzi/moltbot-ha/releases/tag/v0.1.0

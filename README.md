@@ -48,20 +48,11 @@ uv tool install .
 moltbot-ha config init
 ```
 
-This creates `~/.config/moltbot-ha/config.toml`.
+The interactive setup will ask you:
+- **Home Assistant URL**: Your HA instance URL (e.g., `http://192.168.1.100:8123`)
+- **Token storage**: Environment variable (recommended) or config file
 
-### 2. Edit Configuration
-```bash
-nano ~/.config/moltbot-ha/config.toml
-```
-
-Set your Home Assistant URL:
-```toml
-[server]
-url = "http://192.168.1.100:8123"  # Your Home Assistant URL
-```
-
-### 3. Set Token (Environment Variable)
+### 2. Set Token (if using environment variable)
 ```bash
 export HA_TOKEN="your_long_lived_access_token"
 ```
@@ -72,7 +63,7 @@ export HA_TOKEN="your_long_lived_access_token"
 3. Click "Create Token", give it a name (e.g., "moltbot-ha")
 4. Copy the token immediately (you can't see it again!)
 
-### 4. Test Connection
+### 3. Test Connection
 ```bash
 moltbot-ha test
 ```
@@ -80,6 +71,19 @@ moltbot-ha test
 You should see:
 ```
 ✓ Connected to Home Assistant successfully
+```
+
+---
+
+### Non-Interactive Setup
+
+If you prefer to set everything via environment variables:
+
+```bash
+export HA_URL="http://192.168.1.100:8123"
+export HA_TOKEN="your_token_here"
+moltbot-ha config init --no-interactive
+moltbot-ha test
 ```
 
 ---

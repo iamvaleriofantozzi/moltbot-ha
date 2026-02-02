@@ -443,15 +443,53 @@ app.add_typer(config_app, name="config")
 @config_app.command("init")
 def config_init(
     force: bool = typer.Option(False, "--force", help="Overwrite existing config"),
+    url: Optional[str] = typer.Option(None, "--url", help="Home Assistant URL"),
+    token: Optional[str] = typer.Option(None, "--token", help="Home Assistant token"),
+    interactive: bool = typer.Option(
+        True, "--interactive/--no-interactive", help="Interactive setup"
+    ),
 ) -> None:
-    """Initialize configuration file from template."""
+    """Initialize configuration file with interactive setup."""
     try:
-        config_path = init_config(force=force)
-        console.print(f"[green]✓[/green] Configuration created at: {config_path}")
+        # Interactive prompts if not provided
+        if interactive and not url:
+            console.print("\n[bold cyan]Home Assistant Configuration Setup[/bold cyan]\n")
+
+            url = typer.prompt(
+                "Home Assistant URL (e.g., http://192.168.1.100:8123)",
+                default="http://homeassistant.local:8123",
+            )
+
+            # Validate URL format
+            if not url.startswith(("http://", "https://")):
+                console.print("[red]Error:[/red] URL must start with http:// or https://")
+                raise typer.Exit(1)
+
+        if interactive and not token:
+            console.print("\n[yellow]Token Setup:[/yellow]")
+            console.print("You can either:")
+            console.print("  1. Set HA_TOKEN environment variable (recommended)")
+            console.print("  2. Store token in config file (less secure)")
+
+            use_env = typer.confirm("Use HA_TOKEN environment variable?", default=True)
+
+            if not use_env:
+                token = typer.prompt("Enter your Home Assistant long-lived token", hide_input=True)
+
+        # Create config file
+        config_path = init_config(force=force, url=url, token=token)
+
+        console.print(f"\n[green]✓[/green] Configuration created at: {config_path}")
+
+        # Show next steps
         console.print("\n[yellow]Next steps:[/yellow]")
-        console.print("1. Edit the config file and set your Home Assistant URL")
-        console.print("2. Set HA_TOKEN environment variable or add token to config")
-        console.print("3. Run 'moltbot-ha test' to verify connection")
+        if not token:
+            console.print("1. Set HA_TOKEN environment variable:")
+            console.print('   [cyan]export HA_TOKEN="your_token_here"[/cyan]')
+            console.print("2. Run 'moltbot-ha test' to verify connection")
+        else:
+            console.print("1. Run 'moltbot-ha test' to verify connection")
+
     except FileExistsError as e:
         console.print(f"[red]Error:[/red] {e}")
         console.print("[yellow]Use --force to overwrite[/yellow]")

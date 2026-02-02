@@ -142,11 +142,15 @@ def load_config() -> Config:
     return Config(**config_dict)
 
 
-def init_config(force: bool = False) -> Path:
+def init_config(
+    force: bool = False, url: Optional[str] = None, token: Optional[str] = None
+) -> Path:
     """Initialize configuration by copying example to config location.
 
     Args:
         force: Overwrite existing config file
+        url: Home Assistant URL (if not provided, uses default from example)
+        token: Home Assistant token (if not provided, expects HA_TOKEN env var)
 
     Returns:
         Path: Path to created config file
@@ -168,9 +172,22 @@ def init_config(force: bool = False) -> Path:
     if not example_path.exists():
         raise FileNotFoundError(f"Example config not found at {example_path}")
 
-    # Copy example to config location
-    import shutil
+    # Read example config
+    with open(example_path, "r") as f:
+        config_content = f.read()
 
-    shutil.copy(example_path, config_path)
+    # Replace URL if provided
+    if url:
+        config_content = config_content.replace(
+            'url = "http://homeassistant.local:8123"', f'url = "{url}"'
+        )
+
+    # Add token if provided (uncomment the token line)
+    if token:
+        config_content = config_content.replace('# token = "eyJ..."', f'token = "{token}"')
+
+    # Write config
+    with open(config_path, "w") as f:
+        f.write(config_content)
 
     return config_path
