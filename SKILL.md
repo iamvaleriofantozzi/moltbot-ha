@@ -1,7 +1,7 @@
 ---
-name: homeassistant
+name: moltbot-ha
 description: Control Home Assistant smart home devices, lights, scenes, and automations via moltbot-ha CLI with configurable safety confirmations.
-homepage: https://www.home-assistant.io/
+homepage: https://github.com/iamvaleriofantozzi/moltbot-ha
 metadata: {"moltbot":{"emoji":"🏠","requires":{"bins":["moltbot-ha"],"env":["HA_TOKEN"]},"primaryEnv":"HA_TOKEN","install":[{"id":"uv","kind":"uv","package":"moltbot-ha","bins":["moltbot-ha"],"label":"Install moltbot-ha (uv tool)"}]}}
 ---
 
