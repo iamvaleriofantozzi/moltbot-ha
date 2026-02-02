@@ -1,0 +1,13 @@
+LICENSE
+*.whl
+*.tar.gz
+*.pyc
+*.egg-info
+dist/
+build/
+.git/
+.gitignore
+.ruff_cache/
+pyproject.toml
+src/
+__pycache__/
